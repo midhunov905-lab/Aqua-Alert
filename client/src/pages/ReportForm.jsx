@@ -14,6 +14,7 @@ export default function ReportForm() {
   const [photo, setPhoto] = useState(null);
   const [existingPhoto, setExistingPhoto] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(editing);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -84,7 +85,49 @@ export default function ReportForm() {
             <div className={`coordinate-readout ${form.latitude !== null ? 'coordinate-readout-selected' : ''}`}><MapPin size={17} /><div><strong>{form.latitude === null ? 'Select a point on the map' : 'Location pin selected'}</strong><span>{coordinateText}</span></div>{form.latitude !== null && <CheckCircle2 size={17} />}</div>
             <div className="form-divider" />
             <div><span className="form-label form-label-block">Photo evidence <span className="optional-note">Optional</span></span><p className="field-help field-help-top">A photo can add context. JPG, PNG, or WebP, maximum 5 MB.</p></div>
-            <label className="upload-zone">{previewUrl || existingPhoto ? <div className="photo-preview"><img src={previewUrl || existingPhoto} alt="Selected evidence preview" /><span><Camera size={16} /> {photo?.name || 'Existing evidence photo'}</span></div> : <><span className="upload-icon"><UploadCloud size={24} /></span><strong>Choose an image to upload</strong><span>or drag a photo into this area</span></>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => choosePhoto(e.target.files?.[0])} /><small>Only upload images you have permission to share.</small></label>
+            <label
+  className={`upload-zone ${isDragging ? 'upload-zone-dragging' : ''}`}
+  onDragOver={(event) => {
+    event.preventDefault();
+    setIsDragging(true);
+  }}
+  onDragLeave={() => setIsDragging(false)}
+  onDrop={(event) => {
+    event.preventDefault();
+    setIsDragging(false);
+    choosePhoto(event.dataTransfer.files?.[0]);
+  }}
+>
+  {previewUrl || existingPhoto ? (
+    <div className="photo-preview">
+      <img
+        src={previewUrl || existingPhoto}
+        alt="Selected evidence preview"
+      />
+      <span>
+        <Camera size={16} />
+        {photo?.name || 'Existing evidence photo'}
+      </span>
+    </div>
+  ) : (
+    <>
+      <span className="upload-icon">
+        <UploadCloud size={24} />
+      </span>
+      <strong>Choose an image to upload</strong>
+      <span>or drag a photo into this area</span>
+    </>
+  )}
+
+  <input
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    onChange={(event) => choosePhoto(event.target.files?.[0])}
+  />
+
+  <small>Only upload images you have permission to share.</small>
+</label>
+
             {photo && <button className="remove-photo" type="button" onClick={() => setPhoto(null)}><X size={14} /> Remove selected photo</button>}
           </div>
           <div className="form-submit-row"><span><ShieldCheck size={16} /> Your account is attached to this report.</span><button type="submit" className="button button-primary" disabled={submitting}>{submitting ? 'Saving report…' : editing ? 'Save changes' : 'Submit report'} {editing ? <Save size={17} /> : <ArrowRight size={17} />}</button></div>
