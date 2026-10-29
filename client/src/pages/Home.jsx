@@ -1,6 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowDownRight, ArrowRight, ArrowUpRight, CheckCircle2, ClipboardCheck, Droplet, Droplets, MapPin, ShieldCheck, Waves, Users, BarChart3 } from 'lucide-react';
+import {
+  ArrowDownRight,
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle2,
+  ClipboardCheck,
+  Droplet,
+  Droplets,
+  MapPin,
+  Waves,
+  BarChart3,
+} from 'lucide-react';
 import api from '../api.js';
 
 const formatNumber = (value) => new Intl.NumberFormat('en-IN').format(value || 0);
