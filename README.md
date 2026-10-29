@@ -8,7 +8,7 @@ AquaAlert is a full-stack web application for reporting water quality concerns, 
 - Citizen registration and login with role-based access.
 - Submit a report with title, issue type, description, map coordinates, locality/landmark, and optional evidence photo.
 - Citizen dashboard to filter, review, edit new reports, and delete new reports.
-- Administrator dashboard to search and filter all reports, see map locations and category chart, change status, add an administrative note, and delete reports.
+- Admin workflow: review incoming water reports, inspect map locations and category statistics, update report statuses, add administrative notes, and remove reports when necessary.
 - SQLite persistence, password hashing, HTTP-only session cookies, input validation, photo size/type limits, security headers, and rate limiting for authentication.
 - Vite development server and Express API; one server can serve the built frontend in production.
 
